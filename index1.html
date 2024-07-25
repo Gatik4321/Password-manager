@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pass-X Your Personal Password Manager</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">PassX</div>
+        <ul>
+           <li>Home</li> 
+           <li>About</li>
+           <li>Contact</li>
+        </ul>
+    </nav>
+    <div class="container">
+        <h1>Password Manager</h1>
+        <p>We are thrilled to have you here. Your digital life contains a myriad of passwords and we know how
+            challenging it can be to manage all. That's why we are here to make it easy for you.
+        </p>
+        <h2>Your Passwords <span id="alert">(!Copied)</span></h2>
+        <table>
+            <tr>
+                <th>Website</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Delete</th>
+            </tr>
+            <tbody id="expenseList"></tbody>
+        </table>
+
+        <h2>Add a Password</h2>
+        <form id="expenseForm" action="/submit" method="post" class="expenseForm">
+            <!-- text input for the website -->
+             <label for="website">Website:</label>
+             <input type="text" id="website" name="website" required>
+             <br><br>
+
+             <label for="username">Username:</label>
+             <input type="text" id="username" name="username" required>
+             <br><br>
+
+             <label for="password">Password:</label>
+             <input type="password" name="password" id="password" required>
+             <br><br>
+             
+            <!-- Submit button -->
+             <button class="btn" type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const expenseForm = document.getElementById("expenseForm");
+        const expenseList = document.getElementById("expenseList");
+        const alertBox = document.getElementById("alert");
+
+        expenseForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const website = document.getElementById('website').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (website && username && password) {
+                const newRow = document.createElement('tr');
+                newRow.innerHTML = `
+                    <td>${website}</td>
+                    <td>${username}</td>
+                    <td><span class="password">${password}</span></td>
+                    <td><button class="deleteBtn">Delete</button></td>
+                `;
+                alert("Your password hass been saved successfully");
+                expenseList.appendChild(newRow);
+
+                // Clear the form fields
+                document.getElementById('website').value = "";
+                document.getElementById('username').value = "";
+                document.getElementById('password').value = "";
+            } else {
+                alert('Please enter valid details');
+            }
+        });
+
+        expenseList.addEventListener('click', function(event) {
+            if (event.target.classList.contains('deleteBtn')) {
+                const row = event.target.closest('tr');
+                alert('Your password has been delted succesfully');
+                row.remove();
+            }
+            else{
+                alert('Cant be removed');
+            }
+        });
+    </script>
+</body>
+</html>
